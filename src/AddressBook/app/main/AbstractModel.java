@@ -1,0 +1,38 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package AddressBook.app.main;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+/**
+ *
+ * @author Woj G
+ */
+public abstract class AbstractModel
+{
+    protected PropertyChangeSupport propertyChangeSupport;
+    
+    public AbstractModel()
+    {
+        propertyChangeSupport = new PropertyChangeSupport(this);
+    }
+    
+    public void addPropertyChangeListener(PropertyChangeListener listener)
+    {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+    
+    public void removePropertyChangeListener(PropertyChangeListener listener)
+    {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+    
+    protected void firePropertyChange(String propertyName, Object oldVal, Object newVal)
+    {
+        propertyChangeSupport.firePropertyChange(propertyName, oldVal, newVal);
+    }
+}
