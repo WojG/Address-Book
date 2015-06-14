@@ -15,54 +15,29 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import net.java.dev.designgridlayout.DesignGridLayout;
+import net.java.dev.designgridlayout.LabelAlignment;
+import net.java.dev.designgridlayout.RowGroup;
 import org.painlessgridbag.PainlessGridBag;
+import org.painlessgridbag.PainlessGridbagConfiguration;
 
 /**
  *
  * @author WG
  */
 public class ContactView extends JPanel implements AbstractView
-{
-   /* private final JTextField fnameTxt;
-    private final JTextField lnameTxt;
-    private final JTextField addressTxt;
-    private final JTextField cityTxt;
-    private final JTextField provStateTxt;
-    private final JTextField postalCodeTxt;
-    private final JTextField countryTxt;*/
-    
-    private ArrayList<JTextField> listOfTextFields;
-    
+{        
     public ContactView()
     {
         super(new BorderLayout());   
-        
-        String[] textFields = {"First Name", "Middle Name", "Last Name", "Address", "City",
-                               "Province/State", "Postal Code", "Country"};
-        
-        listOfTextFields = new ArrayList();
-        
-        CreateTextFields(textFields);
-        
-       /* fnameTxt = new JTextField("First Name");
-        fnameTxt.setBorder(BorderFactory.createEmptyBorder());
-        fnameTxt.setBackground(null); 
-        Font myFont = new Font("Serif", Font.ITALIC, 14);
-        fnameTxt.setFont(myFont);     
-        
-        lnameTxt = new JTextField();
-        addressTxt = new JTextField();
-        cityTxt = new JTextField();
-        provStateTxt = new JTextField();
-        postalCodeTxt = new JTextField();
-        countryTxt = new JTextField();*/
-        
+                
         add(ContactHeader(), BorderLayout.NORTH);
         add(ContactInformationForm(), BorderLayout.CENTER);
     }
     
     private JPanel ContactHeader()
     {
+        //JPanel chPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel chPanel = new JPanel(new BorderLayout());
         
         // picture of contact on left
@@ -70,8 +45,9 @@ public class ContactView extends JPanel implements AbstractView
         try
         {
             Image image = ImageIO.read(new File("images/avatar.png"));
-            image = image.getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+            image = image.getScaledInstance(96, 96, Image.SCALE_SMOOTH);
             JLabel picLabel = new JLabel(new ImageIcon(image));
+            contactPicture.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); 
             contactPicture.add(picLabel, BorderLayout.CENTER);
         } catch (IOException ex)
         {
@@ -79,14 +55,17 @@ public class ContactView extends JPanel implements AbstractView
         }
         
         // name of contact (last name, first name) 
-        JPanel contactName = new JPanel(new BorderLayout());
-        JTextField fullName = new JTextField();
+        JPanel contactName = new JPanel();
+        contactName.setLayout(new BoxLayout(contactName, BoxLayout.PAGE_AXIS));
+        JLabel fullName = new JLabel();
         fullName.setText("Doe, Jane");
         fullName.setBorder(BorderFactory.createEmptyBorder());
         fullName.setBackground(null);
         Font myFont = new Font("Serif", Font.BOLD, 24);
-        fullName.setFont(myFont);        
-        contactName.add(fullName, BorderLayout.CENTER);
+        fullName.setFont(myFont);  
+        contactName.add(Box.createRigidArea(new Dimension(15,0)));
+        contactName.add(fullName);
+        contactName.add(Box.createRigidArea(new Dimension(0,10)));
         
         // edit contact button
         JButton btnEdit = new JButton("Edit Contact");               
@@ -99,66 +78,71 @@ public class ContactView extends JPanel implements AbstractView
     
     private JPanel ContactInformationForm()
     {
-        JPanel cfPanel = new JPanel();
-               
-        // email: work, home, family, other
-        PainlessGridBag gbl = new PainlessGridBag(cfPanel, false);
+        JPanel cfPanel = new JPanel(new GridBagLayout());
+        cfPanel.setBackground(Color.WHITE);
         
-        JLabel emailLabel = new JLabel("Email");
-        Font emailFont = new Font("Serif", Font.BOLD, 16);
-        emailLabel.setFont(emailFont);
-                    
-        JLabel workLabel = new JLabel("Work");            
-        Font workFont = new Font("Serif", Font.ITALIC, 14);
-        workLabel.setFont(workFont);   
+        DesignGridLayout layout = new DesignGridLayout(cfPanel);
+        layout.labelAlignment(LabelAlignment.RIGHT);
+        layout.withoutConsistentWidthAcrossNonGridRows();
         
-        JTextField workTextField = new JTextField();
+        // email: work, home, family, other              
+        layout.emptyRow();
+        layout.row().left().add(Label("Email ", "Serif", Font.BOLD, 16), new JSeparator()).fill();       
+        layout.row().grid(Label("Work:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Home:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Family:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Other:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
         
-        JLabel homeLabel = new JLabel("Home");
-        Font homeFont = new Font("Serif", Font.ITALIC, 14);
-        homeLabel.setFont(homeFont);
-        
-        JTextField homeTextField = new JTextField();
-        
-        JLabel familyLabel = new JLabel("Family");
-        Font familyFont = new Font("Serif", Font.ITALIC, 14);
-        familyLabel.setFont(familyFont);
-        
-        JTextField familyTextField = new JTextField();
-        
-        JLabel otherLabel = new JLabel("Other");
-        Font otherFont = new Font("Serif", Font.ITALIC, 14);
-        otherLabel.setFont(otherFont);
-        
-        JTextField otherTextField = new JTextField();
-        
-        gbl.row().cell(emailLabel).fillX();
-        gbl.row().cell(workLabel).fillX().cell(workTextField).fillX();
-        gbl.row().cell(homeLabel).fillX().cell(homeTextField).fillX();
-        gbl.row().cell(familyLabel).fillX().cell(familyTextField).fillX();
-        gbl.row().cell(otherLabel).fillX().cell(otherTextField).fillX();
-        // social accounts: aim, icq, skype, etc
+        // social accounts: aim, icq, skype, etc                
+        layout.emptyRow();
+        layout.row().left().add(Label("Social/Messaging Accounts ", "Serif", Font.BOLD, 16), new JSeparator()).fill(); 
+        layout.row().grid(Label("Facebook:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Twitter:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Google Talk:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Skype:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("ICQ:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Other:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+         
         // phone: work, home, cell, other
+        layout.emptyRow();
+        layout.row().left().add(Label("Phone ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
+        layout.row().grid(Label("Work:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Home:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Cell:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        
         // address: home, work
+        layout.emptyRow();
+        layout.row().left().add(Label("Addresses ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
+        layout.row().grid(Label("Work:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Home:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        
         // work info: 
+        layout.emptyRow();
+        layout.row().left().add(Label("Work Info ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
+        layout.row().grid(Label("Position:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Department:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        
         // notes: 
-                
-        gbl.doneAndPushEverythingToTop();
-                        
+        layout.emptyRow();
+        layout.row().left().add(Label("Notes ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
+        layout.row().grid().add(TextField("", 16));     
         return cfPanel;
     }       
     
-    private void CreateTextFields(String[] textFieldNames)
-    {        
-        for(int i = 0; i < textFieldNames.length; i++)
-        {
-            JTextField textField = new JTextField(textFieldNames[i]);
-            textField.setBorder(BorderFactory.createEmptyBorder());
-            textField.setBackground(null); 
-            Font myFont = new Font("Serif", Font.ITALIC, 14);
-            textField.setFont(myFont);
-            listOfTextFields.add(textField); 
-        }
+    private JLabel Label(String text, String fontName, int fontStyle, int fontSize)
+    {
+        JLabel label = new JLabel(text);
+        label.setFont(new Font(fontName, fontStyle, fontSize));
+        
+        return label;
+    }
+    
+    private JTextField TextField(String text, int numOfCols)
+    {
+        JTextField textField = new JTextField(numOfCols);
+        textField.setText(text);
+        
+        return textField;
     }
     
     @Override
