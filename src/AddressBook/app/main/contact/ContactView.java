@@ -10,16 +10,12 @@ import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import net.java.dev.designgridlayout.DesignGridLayout;
 import net.java.dev.designgridlayout.LabelAlignment;
-import net.java.dev.designgridlayout.RowGroup;
-import org.painlessgridbag.PainlessGridBag;
-import org.painlessgridbag.PainlessGridbagConfiguration;
 
 /**
  *
@@ -88,44 +84,44 @@ public class ContactView extends JPanel implements AbstractView
         // email: work, home, family, other              
         layout.emptyRow();
         layout.row().left().add(Label("Email ", "Serif", Font.BOLD, 16), new JSeparator()).fill();       
-        layout.row().grid(Label("Work:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
-        layout.row().grid(Label("Home:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
-        layout.row().grid(Label("Family:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
-        layout.row().grid(Label("Other:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Work:", "Serif", Font.ITALIC, 14)).add(TextField("", "emailWork", 16));
+        layout.row().grid(Label("Home:", "Serif", Font.ITALIC, 14)).add(TextField("", "emailHome", 16));
+        layout.row().grid(Label("Family:", "Serif", Font.ITALIC, 14)).add(TextField("", "emailFamily", 16));
+        layout.row().grid(Label("Other:", "Serif", Font.ITALIC, 14)).add(TextField("", "emailOther", 16));
         
         // social accounts: aim, icq, skype, etc                
         layout.emptyRow();
         layout.row().left().add(Label("Social/Messaging Accounts ", "Serif", Font.BOLD, 16), new JSeparator()).fill(); 
-        layout.row().grid(Label("Facebook:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
-        layout.row().grid(Label("Twitter:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
-        layout.row().grid(Label("Google Talk:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
-        layout.row().grid(Label("Skype:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
-        layout.row().grid(Label("ICQ:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
-        layout.row().grid(Label("Other:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Facebook:", "Serif", Font.ITALIC, 14)).add(TextField("", "socialFacebook", 16));
+        layout.row().grid(Label("Twitter:", "Serif", Font.ITALIC, 14)).add(TextField("", "socialTwitter", 16));
+        layout.row().grid(Label("Google Talk:", "Serif", Font.ITALIC, 14)).add(TextField("", "socialGTalk", 16));
+        layout.row().grid(Label("Skype:", "Serif", Font.ITALIC, 14)).add(TextField("", "socialSkype", 16));
+        layout.row().grid(Label("ICQ:", "Serif", Font.ITALIC, 14)).add(TextField("", "socialICQ", 16));
+        layout.row().grid(Label("Other:", "Serif", Font.ITALIC, 14)).add(TextField("", "socialOther", 16));
          
         // phone: work, home, cell, other
         layout.emptyRow();
         layout.row().left().add(Label("Phone ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
-        layout.row().grid(Label("Work:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
-        layout.row().grid(Label("Home:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
-        layout.row().grid(Label("Cell:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Work:", "Serif", Font.ITALIC, 14)).add(TextField("", "phoneWork", 16));
+        layout.row().grid(Label("Home:", "Serif", Font.ITALIC, 14)).add(TextField("", "phoneHome", 16));
+        layout.row().grid(Label("Cell:", "Serif", Font.ITALIC, 14)).add(TextField("", "phoneCell", 16));
         
         // address: home, work
         layout.emptyRow();
         layout.row().left().add(Label("Addresses ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
-        layout.row().grid(Label("Work:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
-        layout.row().grid(Label("Home:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Work:", "Serif", Font.ITALIC, 14)).add(TextField("", "addressWork", 16));
+        layout.row().grid(Label("Home:", "Serif", Font.ITALIC, 14)).add(TextField("", "addressHome", 16));
         
         // work info: 
         layout.emptyRow();
         layout.row().left().add(Label("Work Info ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
-        layout.row().grid(Label("Position:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
-        layout.row().grid(Label("Department:", "Serif", Font.ITALIC, 14)).add(TextField("", 16));
+        layout.row().grid(Label("Position:", "Serif", Font.ITALIC, 14)).add(TextField("", "workInfoPosition", 16));
+        layout.row().grid(Label("Department:", "Serif", Font.ITALIC, 14)).add(TextField("", "workInfoDept", 16));
         
         // notes: 
         layout.emptyRow();
         layout.row().left().add(Label("Notes ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
-        layout.row().grid().add(TextField("", 16));     
+        layout.row().grid().add(TextField("","notes", 16));     
         return cfPanel;
     }       
     
@@ -137,10 +133,11 @@ public class ContactView extends JPanel implements AbstractView
         return label;
     }
     
-    private JTextField TextField(String text, int numOfCols)
+    private JTextField TextField(String text, String textName, int numOfCols)
     {
         JTextField textField = new JTextField(numOfCols);
         textField.setText(text);
+        textField.setName(textName);
         
         return textField;
     }
