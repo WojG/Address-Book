@@ -16,9 +16,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import static AddressBook.app.main.util.MyUtility.*;
 import net.java.dev.designgridlayout.DesignGridLayout;
 import net.java.dev.designgridlayout.LabelAlignment;
-import static AddressBook.app.main.util.MyUtility.*;
 
 /**
  *
@@ -144,13 +144,24 @@ public class ContactView extends JPanel implements AbstractView
         layout.row().grid().add(MyTextField("","notes", 16));     
         return cfPanel;
     } 
-            
-    public String getEmailWork()
-    {
-      //  JTextField txtField = (JTextField)textFieldMap.get("emailWork");
-        
-        return txtField.getText();
+    
+    public JTextField MyTextField(String text, String name, int noCols)
+    {        
+        JTextField txtField = new JTextField(noCols);
+        txtField.setText(text);
+        textFieldMap.put(name, txtField);
+        return txtField;
     }
+    
+    public String getEmailWorkText()
+    {    
+            JTextField txt = (JTextField) textFieldMap.get("emailWork");
+            return txt.getText();
+        
+        
+    }
+    
+    
     
     public JButton getSaveBtn()
     {

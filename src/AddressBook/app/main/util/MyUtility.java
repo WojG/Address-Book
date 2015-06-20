@@ -7,14 +7,15 @@ package AddressBook.app.main.util;
 
 import java.awt.Font;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 /**
  *
  * @author wojg2_000
  */
 public final class MyUtility
-{    
+{       
+    
+    
     private MyUtility()
     {
         
@@ -26,4 +27,6 @@ public final class MyUtility
         label.setFont(new Font(fontName, fontStyle, fontSize));
         return label;
     }   
+       
+    
 }

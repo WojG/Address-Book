@@ -35,8 +35,7 @@ public class ContactController extends AbstractController
         @Override
         public void mousePressed(MouseEvent me)
         {
-            if(!view.getEmailWork().isEmpty())
-                System.out.println("Test email work: " + view.getEmailWork());
+                
         }
     }
 }
