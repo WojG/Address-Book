@@ -6,6 +6,10 @@
 
 package AddressBook.app.main;
 
+import AddressBook.app.main.contact.ContactController;
+import AddressBook.app.main.contact.ContactModel;
+import AddressBook.app.main.contact.ContactView;
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -30,13 +34,13 @@ public class Main
                 @Override
                 public void run()
                 {
+                    
                     new RunAddressBook();
+                    
                 }
             });
         } 
         
-  //     RunAddressBook mainRunAddressBook = new RunAddressBook();
-
         catch (ClassNotFoundException | InstantiationException | 
                  IllegalAccessException | UnsupportedLookAndFeelException e) 
         {

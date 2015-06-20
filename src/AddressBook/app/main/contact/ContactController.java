@@ -6,6 +6,8 @@
 package AddressBook.app.main.contact;
 
 import AddressBook.app.main.AbstractController;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  *
@@ -13,5 +15,28 @@ import AddressBook.app.main.AbstractController;
  */
 public class ContactController extends AbstractController
 {
+    private final ContactView view;
+    private final ContactModel model;
     
+    public ContactController(ContactModel cm, ContactView cv)
+    {        
+        this.model = cm;
+        this.view = cv;
+        
+        this.view.listenForSaveClick(new listenForSaveClick());        
+    }  
+
+    private class listenForSaveClick extends MouseAdapter
+    {
+        public listenForSaveClick()
+        {
+        }
+        
+        @Override
+        public void mousePressed(MouseEvent me)
+        {
+            if(!view.getEmailWork().isEmpty())
+                System.out.println("Test email work: " + view.getEmailWork());
+        }
+    }
 }

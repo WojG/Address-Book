@@ -7,15 +7,18 @@ package AddressBook.app.main.contact;
 
 import AddressBook.app.main.AbstractView;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import net.java.dev.designgridlayout.DesignGridLayout;
 import net.java.dev.designgridlayout.LabelAlignment;
+import static AddressBook.app.main.util.MyUtility.*;
 
 /**
  *
@@ -23,10 +26,15 @@ import net.java.dev.designgridlayout.LabelAlignment;
  */
 public class ContactView extends JPanel implements AbstractView
 {        
+    private JTextField textField;
+    private HashMap textFieldMap;
+    private JButton saveBtn;
+    
     public ContactView()
-    {
-        super(new BorderLayout());   
-                
+    { 
+        super(new BorderLayout());
+        textFieldMap = new HashMap();
+        
         add(ContactHeader(), BorderLayout.NORTH);
         add(ContactInformationForm(), BorderLayout.CENTER);
     }
@@ -81,65 +89,77 @@ public class ContactView extends JPanel implements AbstractView
         layout.labelAlignment(LabelAlignment.RIGHT);
         layout.withoutConsistentWidthAcrossNonGridRows();
         
+        JToolBar optionsBar = new JToolBar();
+        optionsBar.setFloatable(false);
+        
+        saveBtn = new JButton("Save", new ImageIcon("images/save.png"));
+        saveBtn.setHorizontalTextPosition(SwingConstants.CENTER);
+        saveBtn.setVerticalTextPosition(SwingConstants.BOTTOM);
+        saveBtn.setBorder(BorderFactory.createRaisedSoftBevelBorder());
+        optionsBar.add(saveBtn);
+        
+        layout.emptyRow();
+        layout.row().left().add(optionsBar);
+        
         // email: work, home, family, other              
         layout.emptyRow();
-        layout.row().left().add(Label("Email ", "Serif", Font.BOLD, 16), new JSeparator()).fill();       
-        layout.row().grid(Label("Work:", "Serif", Font.ITALIC, 14)).add(TextField("", "emailWork", 16));
-        layout.row().grid(Label("Home:", "Serif", Font.ITALIC, 14)).add(TextField("", "emailHome", 16));
-        layout.row().grid(Label("Family:", "Serif", Font.ITALIC, 14)).add(TextField("", "emailFamily", 16));
-        layout.row().grid(Label("Other:", "Serif", Font.ITALIC, 14)).add(TextField("", "emailOther", 16));
+        layout.row().left().add(MyLabel("Email ", "Serif", Font.BOLD, 16), new JSeparator()).fill();       
+        layout.row().grid(MyLabel("Work:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "emailWork", 16));
+        layout.row().grid(MyLabel("Home:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "emailHome", 16));
+        layout.row().grid(MyLabel("Family:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "emailFamily", 16));
+        layout.row().grid(MyLabel("Other:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "emailOther", 16));
         
         // social accounts: aim, icq, skype, etc                
         layout.emptyRow();
-        layout.row().left().add(Label("Social/Messaging Accounts ", "Serif", Font.BOLD, 16), new JSeparator()).fill(); 
-        layout.row().grid(Label("Facebook:", "Serif", Font.ITALIC, 14)).add(TextField("", "socialFacebook", 16));
-        layout.row().grid(Label("Twitter:", "Serif", Font.ITALIC, 14)).add(TextField("", "socialTwitter", 16));
-        layout.row().grid(Label("Google Talk:", "Serif", Font.ITALIC, 14)).add(TextField("", "socialGTalk", 16));
-        layout.row().grid(Label("Skype:", "Serif", Font.ITALIC, 14)).add(TextField("", "socialSkype", 16));
-        layout.row().grid(Label("ICQ:", "Serif", Font.ITALIC, 14)).add(TextField("", "socialICQ", 16));
-        layout.row().grid(Label("Other:", "Serif", Font.ITALIC, 14)).add(TextField("", "socialOther", 16));
+        layout.row().left().add(MyLabel("Social/Messaging Accounts ", "Serif", Font.BOLD, 16), new JSeparator()).fill(); 
+        layout.row().grid(MyLabel("Facebook:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "socialFacebook", 16));
+        layout.row().grid(MyLabel("Twitter:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "socialTwitter", 16));
+        layout.row().grid(MyLabel("Google Talk:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "socialGTalk", 16));
+        layout.row().grid(MyLabel("Skype:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "socialSkype", 16));
+        layout.row().grid(MyLabel("ICQ:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "socialICQ", 16));
+        layout.row().grid(MyLabel("Other:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "socialOther", 16));
          
         // phone: work, home, cell, other
         layout.emptyRow();
-        layout.row().left().add(Label("Phone ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
-        layout.row().grid(Label("Work:", "Serif", Font.ITALIC, 14)).add(TextField("", "phoneWork", 16));
-        layout.row().grid(Label("Home:", "Serif", Font.ITALIC, 14)).add(TextField("", "phoneHome", 16));
-        layout.row().grid(Label("Cell:", "Serif", Font.ITALIC, 14)).add(TextField("", "phoneCell", 16));
+        layout.row().left().add(MyLabel("Phone ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
+        layout.row().grid(MyLabel("Work:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "phoneWork", 16));
+        layout.row().grid(MyLabel("Home:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "phoneHome", 16));
+        layout.row().grid(MyLabel("Cell:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "phoneCell", 16));
         
         // address: home, work
         layout.emptyRow();
-        layout.row().left().add(Label("Addresses ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
-        layout.row().grid(Label("Work:", "Serif", Font.ITALIC, 14)).add(TextField("", "addressWork", 16));
-        layout.row().grid(Label("Home:", "Serif", Font.ITALIC, 14)).add(TextField("", "addressHome", 16));
+        layout.row().left().add(MyLabel("Addresses ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
+        layout.row().grid(MyLabel("Work:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "addressWork", 16));
+        layout.row().grid(MyLabel("Home:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "addressHome", 16));
         
         // work info: 
         layout.emptyRow();
-        layout.row().left().add(Label("Work Info ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
-        layout.row().grid(Label("Position:", "Serif", Font.ITALIC, 14)).add(TextField("", "workInfoPosition", 16));
-        layout.row().grid(Label("Department:", "Serif", Font.ITALIC, 14)).add(TextField("", "workInfoDept", 16));
+        layout.row().left().add(MyLabel("Work Info ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
+        layout.row().grid(MyLabel("Position:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "workInfoPosition", 16));
+        layout.row().grid(MyLabel("Department:", "Serif", Font.ITALIC, 14)).add(MyTextField("", "workInfoDept", 16));
         
         // notes: 
         layout.emptyRow();
-        layout.row().left().add(Label("Notes ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
-        layout.row().grid().add(TextField("","notes", 16));     
+        layout.row().left().add(MyLabel("Notes ", "Serif", Font.BOLD, 16), new JSeparator()).fill();
+        layout.row().grid().add(MyTextField("","notes", 16));     
         return cfPanel;
-    }       
-    
-    private JLabel Label(String text, String fontName, int fontStyle, int fontSize)
+    } 
+            
+    public String getEmailWork()
     {
-        JLabel label = new JLabel(text);
-        label.setFont(new Font(fontName, fontStyle, fontSize));
+      //  JTextField txtField = (JTextField)textFieldMap.get("emailWork");
         
-        return label;
+        return txtField.getText();
     }
     
-    private JTextField TextField(String text, String textName, int numOfCols)
+    public JButton getSaveBtn()
     {
-        JTextField textField = new JTextField(numOfCols);
-        textField.setText(text);
-        textField.setName(textName);
-        
-        return textField;
+        return saveBtn;
+    }
+    
+    public void listenForSaveClick(MouseAdapter listenForSaveClick)
+    {
+        saveBtn.addMouseListener(listenForSaveClick);
     }
     
     @Override

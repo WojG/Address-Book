@@ -13,5 +13,8 @@ import AddressBook.app.main.AbstractModel;
  */
 public class ContactModel extends AbstractModel
 {
-    
+    public ContactModel()
+    {
+        
+    }
 }

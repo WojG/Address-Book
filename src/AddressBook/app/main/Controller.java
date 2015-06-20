@@ -5,6 +5,9 @@
  */
 package AddressBook.app.main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author WG
@@ -17,6 +20,6 @@ public class Controller extends AbstractController
     public Controller(Model m, View v)
     {
         this.view = v;
-        this.model = m;
-    }
+        this.model = m;    
+    }   
 }

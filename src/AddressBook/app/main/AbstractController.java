@@ -17,16 +17,15 @@ import java.util.ArrayList;
  */
 public abstract class AbstractController implements PropertyChangeListener
 {
-
     private final ArrayList<AbstractView> registeredViews;
     private final ArrayList<AbstractModel> registeredModels;
-
+    
     public AbstractController()
     {
         registeredViews = new ArrayList();
         registeredModels = new ArrayList();
     }
-
+        
     public void addModel(AbstractModel model)
     {
         registeredModels.add(model);
@@ -47,8 +46,8 @@ public abstract class AbstractController implements PropertyChangeListener
     public void removeView(AbstractView view)
     {
         registeredViews.remove(view);
-    }
-
+    }   
+               
     @Override
     public void propertyChange(PropertyChangeEvent evt)
     {

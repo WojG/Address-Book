@@ -5,6 +5,10 @@
  */
 package AddressBook.app.main;
 
+import AddressBook.app.main.contact.ContactController;
+import AddressBook.app.main.contact.ContactModel;
+import AddressBook.app.main.contact.ContactView;
+
 /**
  *
  * @author WG
@@ -12,12 +16,18 @@ package AddressBook.app.main;
 public class RunAddressBook
 {
     public RunAddressBook()
-    {
-        Model myModel = new Model();
-        View myView = new View();        
-        Controller myController = new Controller(myModel, myView);
+    {         
+        Model m = new Model();   
+        View v = new View();             
+        Controller c = new Controller(m,v);
         
-        myController.addModel(myModel);
-        myController.addView(myView);        
+        ContactModel cm = new ContactModel();
+        ContactView cv = new ContactView();        
+        ContactController cc = new ContactController(cm, cv);
+        
+        v.addPanelCenter(cv);
+        v.finalizeView();
     }
+    
+    // register all controllers with dispatcher
 }

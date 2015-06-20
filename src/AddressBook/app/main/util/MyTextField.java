@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package AddressBook.app.main;
-
-import java.beans.PropertyChangeEvent;
+package AddressBook.app.main.util;
 
 /**
  *
- * @author Woj G
+ * @author wojg2_000
  */
-public interface AbstractView
-{    
-    public abstract void modelPropertyChange(PropertyChangeEvent event);
+public class MyTextField
+{
+    public MyTextField()
+    {
+        
+    }
 }
