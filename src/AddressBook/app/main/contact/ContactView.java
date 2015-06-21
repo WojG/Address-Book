@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import static AddressBook.app.main.util.MyUtility.*;
+import java.util.Set;
 import net.java.dev.designgridlayout.DesignGridLayout;
 import net.java.dev.designgridlayout.LabelAlignment;
 
@@ -153,16 +154,11 @@ public class ContactView extends JPanel implements AbstractView
         return txtField;
     }
     
-    public String getEmailWorkText()
+    public Set getContactForm()
     {    
-            JTextField txt = (JTextField) textFieldMap.get("emailWork");
-            return txt.getText();
-        
-        
-    }
-    
-    
-    
+        return textFieldMap.entrySet();
+    }   
+            
     public JButton getSaveBtn()
     {
         return saveBtn;

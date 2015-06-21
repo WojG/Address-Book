@@ -8,15 +8,23 @@ package AddressBook.app.main.contact;
 import AddressBook.app.main.AbstractController;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
- *
+ * 
  * @author WG
  */
 public class ContactController extends AbstractController
 {
     private final ContactView view;
     private final ContactModel model;
+       
+    public static final String EMAIL_WORK = "EmailWork";
+    public static final String EMAIL_HOME = "EmailHome";
+    public static final String EMAIL_FAMILY = "EmailFamily";
+    public static final String EMAIL_OTHER = "EmailOther";
     
     public ContactController(ContactModel cm, ContactView cv)
     {        
@@ -25,7 +33,27 @@ public class ContactController extends AbstractController
         
         this.view.listenForSaveClick(new listenForSaveClick());        
     }  
-
+    
+    public void changeEmailWork(String emailWork)
+    {
+        setModelProperty(EMAIL_WORK, emailWork);
+    }
+    
+    public void changeEmailHome(String emailHome)
+    {
+        setModelProperty(EMAIL_HOME, emailHome);
+    }
+    
+    public void changeEmailFamily(String emailFamily)
+    {
+        setModelProperty(EMAIL_FAMILY, emailFamily);
+    }
+    
+    public void changeEmailOther(String emailOther)
+    {
+        setModelProperty(EMAIL_OTHER, emailOther);
+    }
+    
     private class listenForSaveClick extends MouseAdapter
     {
         public listenForSaveClick()
@@ -33,9 +61,20 @@ public class ContactController extends AbstractController
         }
         
         @Override
-        public void mousePressed(MouseEvent me)
+        public void mousePressed(MouseEvent mouseEvent)
         {
+            Set set = view.getContactForm();
+            Iterator i = set.iterator();
+            
+            while(i.hasNext())
+            {
+                Map.Entry me = (Map.Entry)i.next();
                 
+                if(me.getValue().toString().isEmpty())
+                {
+                    
+                }
+            }
         }
     }
 }
