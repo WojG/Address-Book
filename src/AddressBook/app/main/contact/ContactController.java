@@ -62,19 +62,8 @@ public class ContactController extends AbstractController
         
         @Override
         public void mousePressed(MouseEvent mouseEvent)
-        {
-            Set set = view.getContactForm();
-            Iterator i = set.iterator();
-            
-            while(i.hasNext())
-            {
-                Map.Entry me = (Map.Entry)i.next();
-                
-                if(me.getValue().toString().isEmpty())
-                {
-                    
-                }
-            }
+        {           
+            System.out.println(view.getTextFieldString(EMAIL_WORK));
         }
     }
 }
