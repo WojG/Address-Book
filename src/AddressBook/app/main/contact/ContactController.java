@@ -8,10 +8,6 @@ package AddressBook.app.main.contact;
 import AddressBook.app.main.AbstractController;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 /**
  * 
  * @author WG
@@ -39,6 +35,11 @@ public class ContactController extends AbstractController
         setModelProperty(EMAIL_WORK, emailWork);
     }
     
+    public void setNewEmailWork(String emailWork)
+    {
+        
+    }
+    
     public void changeEmailHome(String emailHome)
     {
         setModelProperty(EMAIL_HOME, emailHome);
@@ -63,7 +64,18 @@ public class ContactController extends AbstractController
         @Override
         public void mousePressed(MouseEvent mouseEvent)
         {           
-            System.out.println(view.getTextFieldString(EMAIL_WORK));
+          /*  if(view.isTextFieldEmpty())
+            {
+                JOptionPane.showMessageDialog(view, "One or more fields are empty.", 
+                        "Validation", JOptionPane.WARNING_MESSAGE);
+            }
+            
+            else
+            {*/
+                //changeEmailWork(view.getTextFieldString(EMAIL_WORK));
+                setNewEmailWork(view.getTextFieldString(EMAIL_WORK));
+                
+         //   }
         }
     }
 }

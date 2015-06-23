@@ -13,18 +13,23 @@ import AddressBook.app.main.AbstractModel;
  */
 public class ContactModel extends AbstractModel
 {
-    ContactEmail contactEmail;    
+    private ContactEmail contactEmail;    
     
     public ContactModel()
     {
         
-    }        
+    }  
+    
+    public void setNewEmailWork(String emailWork)
+    {
+        contactEmail.setWorkEmail(emailWork);
+    }
     
     public void setEmailWork(String emailWork)
-    {
-        String oldEmailWork = contactEmail.getWorkEmail();
+    {                 
+        String oldEmailWork = contactEmail.getWorkEmail();                
         contactEmail.setWorkEmail(emailWork);
-        firePropertyChange(ContactController.EMAIL_WORK, oldEmailWork, emailWork);
+        firePropertyChange(ContactController.EMAIL_WORK, oldEmailWork, emailWork);        
     }    
     
     public void setEmailFamily(String emailFamily)

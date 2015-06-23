@@ -17,6 +17,9 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import static AddressBook.app.main.util.MyUtility.*;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import net.java.dev.designgridlayout.DesignGridLayout;
 import net.java.dev.designgridlayout.LabelAlignment;
 
@@ -158,6 +161,30 @@ public class ContactView extends JPanel implements AbstractView
         JTextField txt = (JTextField)textFieldMap.get(key);
         return txt.getText();
     }   
+    
+    public void setTextFieldString(String key, String value)
+    {
+        JTextField txt = (JTextField)textFieldMap.get(key);
+        txt.setText(value);
+    }
+    
+    public boolean isTextFieldEmpty()
+    {     
+        Set set = textFieldMap.entrySet();
+        Iterator i = set.iterator();
+
+        while(i.hasNext())
+        {
+            Map.Entry me = (Map.Entry)i.next();
+            JTextField txt = (JTextField) me.getValue();
+            if (txt.getText().isEmpty())
+            {
+                return true;
+            }
+        }
+        
+        return false;
+    }
             
     public JButton getSaveBtn()
     {
@@ -172,6 +199,15 @@ public class ContactView extends JPanel implements AbstractView
     @Override
     public void modelPropertyChange(PropertyChangeEvent event)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        switch(event.getPropertyName())
+        {
+            case ContactController.EMAIL_WORK:
+                String newWorkEmail = event.getNewValue().toString();
+                if(getTextFieldString(ContactController.EMAIL_WORK).equals(newWorkEmail))
+                {
+                    setTextFieldString(ContactController.EMAIL_WORK, newWorkEmail);
+                }
+                break;
+        }
     }    
 }
