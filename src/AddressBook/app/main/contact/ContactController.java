@@ -35,11 +35,6 @@ public class ContactController extends AbstractController
         setModelProperty(EMAIL_WORK, emailWork);
     }
     
-    public void setNewEmailWork(String emailWork)
-    {
-        
-    }
-    
     public void changeEmailHome(String emailHome)
     {
         setModelProperty(EMAIL_HOME, emailHome);
@@ -73,7 +68,6 @@ public class ContactController extends AbstractController
             else
             {*/
                 //changeEmailWork(view.getTextFieldString(EMAIL_WORK));
-                setNewEmailWork(view.getTextFieldString(EMAIL_WORK));
                 
          //   }
         }
